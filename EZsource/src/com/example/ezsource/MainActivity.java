@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.function.XlsToString;
+import com.example.source.AphaseItemTemplate;
 import com.example.source.CustomerMasterfile;
 import com.example.source.UserMaster;
 
@@ -158,6 +159,11 @@ public class MainActivity extends Activity {
 			cv.put("ShipToContactEmail", cm.getShipToContactEmail());
 			db.insert("customermaster", null, cv);
 		}
+		public void insertItemDB(AphaseItemTemplate ai)
+		{
+			
+		}
+		
 		public boolean checkexit(String tablename,String row, String column)
 		{
 			Cursor c = db.query(tablename, null, column + " = ?", new String[]{row}, null, null, null);
