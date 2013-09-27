@@ -116,7 +116,8 @@ public class MainActivity extends Activity {
 			db.execSQL("create table usermaster (_id INTEGER PRIMARY KEY AUTOINCREMENT,UserID varchar,UserName varchar,UserPin varchar,Customer varchar,CustName varchar,Returnable varchar)");
 			db.execSQL("DROP TABLE if EXISTS custemermaster");
 			db.execSQL("create table custemermaster (_id INTEGER PRIMARY KEY AUTOINCREMENT,Customer varchar,CustName varchar,Branch varchar,Warehouse varchar,ShiptoNumber varchar,ShipToName varchar,SRM varchar,Autocrib varchar,WorkOrder varchar,Price varchar,ShipToAddress varchar,ShipToCity varchar,ShipToState varchar,ShipToZip varchar,ShipToContactName varchar,ShipToContactEmail varchar )");
-			
+			db.execSQL("DROP TABLE IF EXISTS itemmaster");
+			db.execSQL("create table itemmaster (_id INTEGER PRIMARY KEY AUTOINCREMENT, Customer varchar,ItemNumbser varchar,CustPart varchar,Description varchar,SRM verchar,Price varchar,UOM varchar,OnOrder varchar, Returnable varchar)");
 			/*
 			 * 
 			 * Customer	CustName	Branch	Warehouse	Shipto Number	Ship To Name	SRM	Autocrib	
@@ -159,9 +160,20 @@ public class MainActivity extends Activity {
 			cv.put("ShipToContactEmail", cm.getShipToContactEmail());
 			db.insert("customermaster", null, cv);
 		}
+		
 		public void insertItemDB(AphaseItemTemplate ai)
 		{
-			
+			ContentValues cv = new ContentValues();
+			cv.put("Customer", ai.getCustomer());
+			cv.put("ItemNumber", ai.getItemNumber());
+			cv.put("CustPart", ai.getCustPart());
+			cv.put("Description", ai.getDescription());
+			cv.put("CRM", ai.getSrm());
+			cv.put("Price", ai.getPrice());
+			cv.put("UOM", ai.getUom());
+			cv.put("OnOrder", ai.getOnOrder());
+			cv.put("Returnable", ai.getReturnable());
+			db.insert("itemmaster", null, cv);
 		}
 		
 		public boolean checkexit(String tablename,String row, String column)
