@@ -10,6 +10,29 @@ public class AphaseItemTemplate {
 	String uom;
 	String onOrder;
 	String returnable;
+	public AphaseItemTemplate()
+	{}
+	
+	public AphaseItemTemplate(	String customer,
+	String itemNumber,
+	String custPart,
+	String description,
+	String srm,
+	String price,
+	String uom,
+	String onOrder,
+	String returnable)
+	{
+		this.customer = customer;
+		this.itemNumber = itemNumber;
+		this.custPart = custPart;
+		this.description = description;
+		this.srm = srm;
+		this.price = price;
+		this.uom = uom;
+		this.onOrder = onOrder;
+		this.returnable = returnable;
+	}
 	
 	public String getCustomer() {
 		return customer;

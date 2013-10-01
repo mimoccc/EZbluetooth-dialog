@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.source.AphaseItemTemplate;
 import com.example.source.CustomerMasterfile;
+import com.example.source.ReturnableItem;
 import com.example.source.UserMaster;
 
 import jxl.Cell;
@@ -109,4 +111,77 @@ public class XlsToString {
 		  }
 		  return list;
 	}
+	
+	public List catchAphaseItemTemplate()
+	{
+		String path = Environment.getExternalStorageDirectory().getPath();
+		File file = new File(path + "/Ezsource/AphaseItemTemplate");
+		String filename = file.listFiles()[0].getPath();
+		file = new File(path + "/Ezsource/AphaseItemTemplate/AphaseItemTemplate.xls");
+		Workbook rwb;
+		List<AphaseItemTemplate> list = new ArrayList<AphaseItemTemplate>();
+		try {
+			rwb = Workbook.getWorkbook(file);
+			Sheet rs = rwb.getSheet(0);
+			int rowsnum = rs.getRows();
+			for(int i = 0; i < rowsnum; i++)
+			{
+				Cell[] cc = rs.getRow(i);
+				AphaseItemTemplate ait = new AphaseItemTemplate(
+						cc[0].getContents(),
+						cc[1].getContents(),
+						cc[2].getContents(),
+						cc[3].getContents(),
+						cc[4].getContents(),
+						cc[5].getContents(),
+						cc[6].getContents(),
+						cc[7].getContents(),
+						cc[8].getContents()
+						);
+				list.add(ait);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return list;
+	}
+	
+	public List catchReturnableItem()
+	{
+		String path = Environment.getExternalStorageDirectory().getPath();
+		File file = new File(path + "/Ezsource/ReturnableItem/ReturnableItem.xls");
+		Workbook rwb;
+		List<ReturnableItem> list = new ArrayList<ReturnableItem>();
+		try{
+			rwb = Workbook.getWorkbook(file);
+			Sheet rs = rwb.getSheet(0);
+			int rowsnum = rs.getRows();
+			for(int i=0; i<rowsnum; i++)
+			{
+				Cell[] cc = rs.getRow(i);
+				ReturnableItem rItem = new ReturnableItem(cc[0].getContents(),
+						cc[1].getContents(),
+						cc[2].getContents(),
+						cc[3].getContents(),
+						cc[4].getContents(),
+						cc[5].getContents(),
+						cc[6].getContents(),
+						cc[7].getContents(),
+						cc[8].getContents(),
+						cc[9].getContents(),
+						cc[10].getContents(),
+						cc[11].getContents(),
+						cc[12].getContents());
+				list.add(rItem);
+			}
+		}
+		catch(Exception e)
+		{
+			
+		}
+		return list;
+		
+	}
+	
+	
 }

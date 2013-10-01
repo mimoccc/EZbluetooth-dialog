@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.function.XlsToString;
 import com.example.source.AphaseItemTemplate;
 import com.example.source.CustomerMasterfile;
+import com.example.source.ReturnableItem;
 import com.example.source.UserMaster;
 
 public class MainActivity extends Activity {
@@ -34,6 +35,8 @@ public class MainActivity extends Activity {
 		creatpath();
 		List<UserMaster> umlist = null;
 		List<CustomerMasterfile> cmlist = null;
+		List<AphaseItemTemplate> aitlist = null;
+		List<ReturnableItem> rilist = null;
 		 XlsToString xts = new XlsToString();
 		 try {
 			umlist =  xts.catchUsermaster();
@@ -119,7 +122,7 @@ public class MainActivity extends Activity {
 			db.execSQL("DROP TABLE IF EXISTS itemmaster");
 			db.execSQL("create table itemmaster (_id INTEGER PRIMARY KEY AUTOINCREMENT, Customer varchar,ItemNumbser varchar,CustPart varchar,Description varchar,SRM verchar,Price varchar,UOM varchar,OnOrder varchar, Returnable varchar)");
 			db.execSQL("DROP TABLE IF EXISTS returnablemaster");
-			db.execSQL("create table returnablemaster (_id INTEGER PRIMARY KEY AUTOINCREMENT, ItemNumber varchar, CustPart varchar,Description varchar,)");
+			db.execSQL("create table returnablemaster (_id INTEGER PRIMARY KEY AUTOINCREMENT, ItemNumber varchar, CustPart varchar,Description varchar,Date varchar,Time varchar,Status varchar, UOM varchar, USERNAME varchar, ShiptoNumber varchar, ShiptoName varchar, WorkOrder varchar, Customer varchar,CustName varchar)");
 			/*
 			 * 
 			 * Customer	CustName	Branch	Warehouse	Shipto Number	Ship To Name	SRM	Autocrib	

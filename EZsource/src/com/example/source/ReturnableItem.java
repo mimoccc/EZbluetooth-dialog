@@ -15,6 +15,37 @@ public class ReturnableItem {
 	String wortOrder;
 	String customer;
 	String custName;
+	
+	public ReturnableItem(
+			String itemNumber,
+			String custPart,
+			String description,
+			String date,
+			String time,
+			String status,
+			String uom,
+			String userName,
+			String shiptoNumber,
+			String shiptoName,
+			String wortOrder,
+			String customer,
+			String custName
+			)
+	{
+		this.itemNumber = itemNumber;
+		this.custPart = custPart;
+		this.description = description;
+		this.date = date;
+		this.time = time;
+		this.status = status;
+		this.uom = uom;
+		this.userName = userName;
+		this.shiptoNumber = shiptoNumber;
+		this.shiptoName = shiptoName;
+		this.wortOrder = wortOrder;
+		this.customer = customer;
+		this.custName = custName;
+	}
 	public String getItemNumber() {
 		return itemNumber;
 	}
