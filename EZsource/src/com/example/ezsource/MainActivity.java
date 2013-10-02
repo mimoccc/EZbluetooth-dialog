@@ -41,6 +41,8 @@ public class MainActivity extends Activity {
 		 try {
 			umlist =  xts.catchUsermaster();
 			cmlist = xts.catchCustomermaster();
+			aitlist = xts.catchAphaseItemTemplate();
+			rilist = xts.catchReturnableItem();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -49,6 +51,8 @@ public class MainActivity extends Activity {
 		newDb.buildDB();
 		int umlistsie = umlist.size();
 		int cmlistsize = cmlist.size();
+		int aitlistsize = aitlist.size();
+		int rilistsize = rilist.size();
 		for(int i = 0; i < umlistsie; i++)
 		{
 			newDb.insertUserMasterDB(umlist.get(i));
@@ -56,6 +60,10 @@ public class MainActivity extends Activity {
 		for(int i = 0;i <  cmlistsize;i++)
 		{
 			newDb.insertCustomerMasterDB(cmlist.get(i));
+		}
+		for(int i=0; i < aitlistsize ; i++)
+		{
+			newDb.insertItemDB(aitlist.get(i));
 		}
 //		UserMaster um = new UserMaster("LOU","Lou","Ray","0201010","CANADIAN NATIONAL","Y");
 //		newDb.insertUserMasterDB(um);
@@ -181,6 +189,24 @@ public class MainActivity extends Activity {
 			db.insert("itemmaster", null, cv);
 		}
 		
+		public void returnableItemDB(ReturnableItem ri)
+		{
+			ContentValues cv = new ContentValues();
+			cv.put("ItemNumber", ri.getItemNumber());
+			cv.put("CustPart", ri.getCustPart());
+			cv.put("Description", ri.getDescription());
+			cv.put("Date",ri.getTime());
+			cv.put("Time", ri.getTime());
+			cv.put("Status", ri.getStatus());
+			cv.put("UOM", ri.getUom());
+			cv.put("UserName", ri.getUserName());
+			cv.put("ShiptoNumber", ri.getShiptoNumber());
+			cv.put("ShiptoName", ri.getShiptoName());
+			cv.put("WorkOrder", ri.getWortOrder());
+			cv.put("Customer", ri.getCustomer());
+			cv.put("CustName", ri.getCustName());
+			db.insert("returnablemaster", null, cv);
+		}
 		public boolean checkexit(String tablename,String row, String column)
 		{
 			Cursor c = db.query(tablename, null, column + " = ?", new String[]{row}, null, null, null);
