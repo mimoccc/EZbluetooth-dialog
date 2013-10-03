@@ -65,6 +65,10 @@ public class MainActivity extends Activity {
 		{
 			newDb.insertItemDB(aitlist.get(i));
 		}
+		for(int i = 0; i < rilistsize; i++)
+		{
+			newDb.insertReturnableItemDB(rilist.get(i));
+		}
 //		UserMaster um = new UserMaster("LOU","Lou","Ray","0201010","CANADIAN NATIONAL","Y");
 //		newDb.insertUserMasterDB(um);
 //		
@@ -125,10 +129,10 @@ public class MainActivity extends Activity {
 		//	db.execSQL("drop table if exists usermaster");
 	    //    db.execSQL("CREATE TABLE person (_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, age SMALLINT)");  
 			db.execSQL("create table usermaster (_id INTEGER PRIMARY KEY AUTOINCREMENT,UserID varchar,UserName varchar,UserPin varchar,Customer varchar,CustName varchar,Returnable varchar)");
-			db.execSQL("DROP TABLE if EXISTS custemermaster");
-			db.execSQL("create table custemermaster (_id INTEGER PRIMARY KEY AUTOINCREMENT,Customer varchar,CustName varchar,Branch varchar,Warehouse varchar,ShiptoNumber varchar,ShipToName varchar,SRM varchar,Autocrib varchar,WorkOrder varchar,Price varchar,ShipToAddress varchar,ShipToCity varchar,ShipToState varchar,ShipToZip varchar,ShipToContactName varchar,ShipToContactEmail varchar )");
+			db.execSQL("DROP TABLE if EXISTS customermaster");
+			db.execSQL("create table customermaster (_id INTEGER PRIMARY KEY AUTOINCREMENT,Customer varchar,CustName varchar,Branch varchar,Warehouse varchar,ShiptoNumber varchar,ShipToName varchar,SRM varchar,Autocrib varchar,WorkOrder varchar,Price varchar,ShipToAddress varchar,ShipToCity varchar,ShipToState varchar,ShipToZip varchar,ShipToContactName varchar,ShipToContactEmail varchar )");
 			db.execSQL("DROP TABLE IF EXISTS itemmaster");
-			db.execSQL("create table itemmaster (_id INTEGER PRIMARY KEY AUTOINCREMENT, Customer varchar,ItemNumbser varchar,CustPart varchar,Description varchar,SRM verchar,Price varchar,UOM varchar,OnOrder varchar, Returnable varchar)");
+			db.execSQL("create table itemmaster (_id INTEGER PRIMARY KEY AUTOINCREMENT, Customer varchar,ItemNumber varchar,CustPart varchar,Description varchar,SRM verchar,Price varchar,UOM varchar,OnOrder varchar, Returnable varchar)");
 			db.execSQL("DROP TABLE IF EXISTS returnablemaster");
 			db.execSQL("create table returnablemaster (_id INTEGER PRIMARY KEY AUTOINCREMENT, ItemNumber varchar, CustPart varchar,Description varchar,Date varchar,Time varchar,Status varchar, UOM varchar, USERNAME varchar, ShiptoNumber varchar, ShiptoName varchar, WorkOrder varchar, Customer varchar,CustName varchar)");
 			/*
@@ -181,7 +185,7 @@ public class MainActivity extends Activity {
 			cv.put("ItemNumber", ai.getItemNumber());
 			cv.put("CustPart", ai.getCustPart());
 			cv.put("Description", ai.getDescription());
-			cv.put("CRM", ai.getSrm());
+			cv.put("SRM", ai.getSrm());
 			cv.put("Price", ai.getPrice());
 			cv.put("UOM", ai.getUom());
 			cv.put("OnOrder", ai.getOnOrder());
@@ -189,7 +193,7 @@ public class MainActivity extends Activity {
 			db.insert("itemmaster", null, cv);
 		}
 		
-		public void returnableItemDB(ReturnableItem ri)
+		public void insertReturnableItemDB(ReturnableItem ri)
 		{
 			ContentValues cv = new ContentValues();
 			cv.put("ItemNumber", ri.getItemNumber());

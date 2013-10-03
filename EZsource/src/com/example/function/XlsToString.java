@@ -18,6 +18,7 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import android.os.Environment;
+import android.util.Log;
 
 public class XlsToString {
 	
@@ -41,8 +42,9 @@ public class XlsToString {
 	//		  Cell c00 = rs.getCell(0, 0);
 			  int columnsnum = rs.getColumns();
 			  int rowsnum = rs.getRows();
+			  Log.e("ysy", "user row " + rowsnum);
 			  for(int i=1; i<rowsnum ; i++)
-			  {				
+			  {		
 			//	  Cell cc = rs.getCell(i,0);
 				  Cell[] cc = rs.getRow(i);
 				  UserMaster um = new UserMaster(cc[0].getContents(),
@@ -56,7 +58,7 @@ public class XlsToString {
 		  }
 		  catch(Exception e)
 		  {
-			  
+				Log.e("ysy ", e.toString());		  
 		  }
 		  return list;
 	}
@@ -69,7 +71,7 @@ public class XlsToString {
 		  File file = new File(path + "/Ezsource/UserMaster");
 		  String filename = file.listFiles()[0].getPath();
 	//	  file = new File(filename);
-		  file = new File("/mnt/sdcard/Ezsource/CustomerMaster/CustomerMaster.xls");
+		  file = new File("/mnt/sdcard/Ezsource/CustomerMaster/CustomerMasterfile.xls");
 	//	  filename = path + "/Ezsource/UserMaster/" + "UserMaster.xls";
 
 	//	  InputStream is = new FileInputStream(filename);
@@ -81,6 +83,7 @@ public class XlsToString {
 	//		  Cell c00 = rs.getCell(0, 0);
 			  int columnsnum = rs.getColumns();
 			  int rowsnum = rs.getRows();
+			  Log.e("ysy", "customermaster " + rowsnum);
 			  for(int i=1; i<rowsnum ; i++)
 			  {				
 			//	  Cell cc = rs.getCell(i,0);
@@ -107,7 +110,7 @@ public class XlsToString {
 		  }
 		  catch(Exception e)
 		  {
-			  
+				Log.e("ysy ", e.toString());		  
 		  }
 		  return list;
 	}
@@ -124,7 +127,8 @@ public class XlsToString {
 			rwb = Workbook.getWorkbook(file);
 			Sheet rs = rwb.getSheet(0);
 			int rowsnum = rs.getRows();
-			for(int i = 0; i < rowsnum; i++)
+			Log.e("ysy", "itemrow " + rowsnum);
+			for(int i = 1; i < rowsnum; i++)
 			{
 				Cell[] cc = rs.getRow(i);
 				AphaseItemTemplate ait = new AphaseItemTemplate(
@@ -141,6 +145,7 @@ public class XlsToString {
 				list.add(ait);
 			}
 		} catch (Exception e) {
+			Log.e("ysy ", e.toString());
 			// TODO: handle exception
 		}
 		return list;
@@ -149,35 +154,38 @@ public class XlsToString {
 	public List catchReturnableItem()
 	{
 		String path = Environment.getExternalStorageDirectory().getPath();
-		File file = new File(path + "/Ezsource/ReturnableItem/ReturnableItem.xls");
+		File file = new File(path + "/Ezsource/ReturnableItems/ReturnableItems.xls");
 		Workbook rwb;
 		List<ReturnableItem> list = new ArrayList<ReturnableItem>();
 		try{
 			rwb = Workbook.getWorkbook(file);
 			Sheet rs = rwb.getSheet(0);
 			int rowsnum = rs.getRows();
-			for(int i=0; i<rowsnum; i++)
+			rs.getColumns();
+			Log.e("ysy", "returnablerow " + rs.getColumns());	
+			for(int i=1; i<rowsnum; i++)
 			{
 				Cell[] cc = rs.getRow(i);
-				ReturnableItem rItem = new ReturnableItem(cc[0].getContents(),
-						cc[1].getContents(),
-						cc[2].getContents(),
-						cc[3].getContents(),
-						cc[4].getContents(),
-						cc[5].getContents(),
-						cc[6].getContents(),
-						cc[7].getContents(),
-						cc[8].getContents(),
-						cc[9].getContents(),
-						cc[10].getContents(),
-						cc[11].getContents(),
-						cc[12].getContents());
+				ReturnableItem rItem = new ReturnableItem(cc);
+//				ReturnableItem rItem = new ReturnableItem(cc[0].getContents(),
+//						cc[1].getContents(),
+//						cc[2].getContents(),
+//						cc[3].getContents(),
+//						cc[4].getContents(),
+//						cc[5].getContents(),
+//						cc[6].getContents(),
+//						cc[7].getContents(),
+//						cc[8].getContents(),
+//						cc[9].getContents(),
+//						cc[10].getContents(),
+//						cc[11].getContents(),
+//						cc[12].getContents());
 				list.add(rItem);
 			}
 		}
 		catch(Exception e)
 		{
-			
+			Log.e("ysy ", e.toString());		
 		}
 		return list;
 		
