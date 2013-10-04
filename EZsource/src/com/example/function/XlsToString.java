@@ -88,22 +88,23 @@ public class XlsToString {
 			  {				
 			//	  Cell cc = rs.getCell(i,0);
 				  Cell[] cc = rs.getRow(i);
-				  CustomerMasterfile cm= new CustomerMasterfile(cc[0].getContents(), 
-						  cc[1].getContents(), 
-						  cc[2].getContents(), 
-						  cc[3].getContents(), 
-						  cc[4].getContents(), 
-						  cc[5].getContents(), 
-						  cc[6].getContents(), 
-						  cc[7].getContents(), 
-						  cc[8].getContents(), 
-						  cc[9].getContents(), 
-						  cc[10].getContents(), 
-						  cc[11].getContents(), 
-						  cc[12].getContents(), 
-						  cc[13].getContents(), 
-						  cc[14].getContents(), 
-						  cc[15].getContents());
+				  CustomerMasterfile cm = new CustomerMasterfile(cc);
+//				  CustomerMasterfile cm= new CustomerMasterfile(cc[0].getContents(), 
+//						  cc[1].getContents(), 
+//						  cc[2].getContents(), 
+//						  cc[3].getContents(), 
+//						  cc[4].getContents(), 
+//						  cc[5].getContents(), 
+//						  cc[6].getContents(), 
+//						  cc[7].getContents(), 
+//						  cc[8].getContents(), 
+//						  cc[9].getContents(), 
+//						  cc[10].getContents(), 
+//						  cc[11].getContents(), 
+//						  cc[12].getContents(), 
+//						  cc[13].getContents(), 
+//						  cc[14].getContents(), 
+//						  cc[15].getContents());
 
 				  list.add(cm);
 			  }
@@ -131,17 +132,18 @@ public class XlsToString {
 			for(int i = 1; i < rowsnum; i++)
 			{
 				Cell[] cc = rs.getRow(i);
-				AphaseItemTemplate ait = new AphaseItemTemplate(
-						cc[0].getContents(),
-						cc[1].getContents(),
-						cc[2].getContents(),
-						cc[3].getContents(),
-						cc[4].getContents(),
-						cc[5].getContents(),
-						cc[6].getContents(),
-						cc[7].getContents(),
-						cc[8].getContents()
-						);
+				AphaseItemTemplate ait = new AphaseItemTemplate(cc);
+//				AphaseItemTemplate ait = new AphaseItemTemplate(
+//						cc[0].getContents(),
+//						cc[1].getContents(),
+//						cc[2].getContents(),
+//						cc[3].getContents(),
+//						cc[4].getContents(),
+//						cc[5].getContents(),
+//						cc[6].getContents(),
+//						cc[7].getContents(),
+//						cc[8].getContents()
+//						);
 				list.add(ait);
 			}
 		} catch (Exception e) {
@@ -163,7 +165,7 @@ public class XlsToString {
 			int rowsnum = rs.getRows();
 			rs.getColumns();
 			Log.e("ysy", "returnablerow " + rs.getColumns());	
-			for(int i=1; i<rowsnum; i++)
+			for(int i=0; i<rowsnum; i++)
 			{
 				Cell[] cc = rs.getRow(i);
 				ReturnableItem rItem = new ReturnableItem(cc);

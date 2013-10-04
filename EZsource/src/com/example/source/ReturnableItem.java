@@ -25,10 +25,16 @@ public class ReturnableItem {
 		s= new String[13] ;
 		for(int i = 0; i< 13; i++)
 		{
+			try{
 			if(cc[i].getContents() != null && !cc[i].getContents().equals(""))
 				s[i] = cc[i].getContents();
 			else
 				s[i] = null;
+			}
+			catch(Exception e)
+			{
+				s[i] = null;
+			}
 	//		s[i]  = cc[i].getContents();
 		}
 

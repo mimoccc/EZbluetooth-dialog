@@ -1,5 +1,7 @@
 package com.example.source;
 
+import jxl.Cell;
+
 public class CustomerMasterfile {
 	String customer;
 	String custName;
@@ -18,6 +20,37 @@ public class CustomerMasterfile {
 	String shipToZip;
 	String shipToContactName;
 	String shipToContactEmail;
+	
+	public CustomerMasterfile(Cell cc[])
+	{
+		String s[];
+		s = new String[16];
+		for(int i=0;i<16;i++)
+		{
+			try {
+				s[i] = cc[i].getContents() ;
+			} catch (Exception e) {
+				// TODO: handle exception
+				s[i] = null;
+			} 
+		}
+		this.customer = s[0];
+		this.custName = s[1];
+		this.branch = s[2];
+		this.warehouse = s[3];
+		this.shiptoNumber = s[4];
+		this.shiptoName = s[5];
+		this.SRM = s[6];
+		this.Autocrib = s[7];
+		this.workorder = s[8];
+		this.price = s[9];
+		this.shipToAddress = s[10];
+		this.shipToCity = s[11];
+		this.shipToState = s[12];
+		this.shipToZip = s[13];
+		this.shipToContactName = s[14];
+		this.shipToContactEmail = s[15];
+	}
 	
 	public CustomerMasterfile(String customer,String custName,
 	String branch,

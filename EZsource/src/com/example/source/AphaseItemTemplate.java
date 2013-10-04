@@ -1,5 +1,7 @@
 package com.example.source;
 
+import jxl.Cell;
+
 public class AphaseItemTemplate {
 	String customer;
 	String itemNumber;
@@ -11,7 +13,43 @@ public class AphaseItemTemplate {
 	String onOrder;
 	String returnable;
 	public AphaseItemTemplate()
-	{}
+	{
+		
+	}
+	public AphaseItemTemplate(Cell[] cc)
+	{
+		String s[];
+		s= new String[9];
+		for(int i=0;i<9;i++)
+		{
+			try {
+				//if(cc[i].getContents()!=null && !cc[i].getContents().isEmpty())
+					s[i] = cc[i].getContents();
+			} catch (Exception e) {
+				s[i]=null;
+				// TODO: handle exception
+			}
+		}
+		this.customer = s[0];
+		this.itemNumber =  s[1];
+		this.custPart =  s[2];
+		this.description =  s[3];
+		this.srm =  s[4];
+		this.price =  s[5];
+		this.uom =  s[6];
+		this.onOrder =  s[7];
+		this.returnable =  s[8];
+		
+//		cc[0].getContents(),
+//		cc[1].getContents(),
+//		cc[2].getContents(),
+//		cc[3].getContents(),
+//		cc[4].getContents(),
+//		cc[5].getContents(),
+//		cc[6].getContents(),
+//		cc[7].getContents(),
+//		cc[8].getContents()
+	}
 	
 	public AphaseItemTemplate(	String customer,
 	String itemNumber,
