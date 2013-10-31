@@ -48,27 +48,39 @@ public class MainActivity extends Activity {
 		}
 		setContentView(R.layout.mainactivity);
 		UserMasterDB newDb = new UserMasterDB();
-		newDb.buildDB();
-		int umlistsie = umlist.size();
-		int cmlistsize = cmlist.size();
-		int aitlistsize = aitlist.size();
-		int rilistsize = rilist.size();
-		for(int i = 0; i < umlistsie; i++)
-		{
-			newDb.insertUserMasterDB(umlist.get(i));
+		try {
+			newDb.openDB();
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e("ysy", "add new db");
+			newDb.buildDB();
+			int umlistsie = umlist.size();
+			int cmlistsize = cmlist.size();
+			int aitlistsize = aitlist.size();
+			int rilistsize = rilist.size();
+			for(int i = 0; i < umlistsie; i++)
+			{
+				newDb.insertUserMasterDB(umlist.get(i));
+			}
+			for(int i = 0;i <  cmlistsize;i++)
+			{
+				newDb.insertCustomerMasterDB(cmlist.get(i));
+			}
+			for(int i=0; i < aitlistsize ; i++)
+			{
+				newDb.insertItemDB(aitlist.get(i));
+			}
+			for(int i = 0; i < rilistsize && i < 1000; i++)
+			{
+				newDb.insertReturnableItemDB(rilist.get(i));
+			}
 		}
-		for(int i = 0;i <  cmlistsize;i++)
-		{
-			newDb.insertCustomerMasterDB(cmlist.get(i));
-		}
-		for(int i=0; i < aitlistsize ; i++)
-		{
-			newDb.insertItemDB(aitlist.get(i));
-		}
-		for(int i = 0; i < rilistsize; i++)
-		{
-			newDb.insertReturnableItemDB(rilist.get(i));
-		}
+
+
+		newDb.closeDB();
+		
+		
+		
 //		UserMaster um = new UserMaster("LOU","Lou","Ray","0201010","CANADIAN NATIONAL","Y");
 //		newDb.insertUserMasterDB(um);
 //		
@@ -120,6 +132,11 @@ public class MainActivity extends Activity {
 		public void openDB()
 		{
 			db = openOrCreateDatabase("EZsource.db", Context.MODE_PRIVATE, null);
+		}
+		
+		public void closeDB()
+		{
+			db.close();
 		}
 		
 		public void buildDB()

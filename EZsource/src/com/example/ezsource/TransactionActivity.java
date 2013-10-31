@@ -64,8 +64,8 @@ public class TransactionActivity extends Activity {
 		state = 1;
 	//	bluetooth();
 		ad =new AlertDialog.Builder(this);
-		showTimeDialog();
-	//	enteruserid();
+	//	showTimeDialog();
+		enteruserid();
 	//	showdialog(state);
 	
 	}
@@ -246,12 +246,18 @@ public class TransactionActivity extends Activity {
 		{
 			String returnString = null;
 		//	Cursor c = db.query(tablename,new String[](column,column2),"",null,null,null,null);
+			Log.e("ysy", "tablename:" + tablename + "column " + column + "row" + row + "column2 "+ column2 + "row2 " + row2);
 			Cursor c = db.query(tablename, null, column + " = ? AND "+ column2 + " = ?", new String[]{row,row2}, null, null, null);
 		//	Cursor c = db.query(tablename, null, column + " = ?", new String[]{row}, null, null, null);
 
 			if(c.moveToFirst())
 				returnString = c.getString(c.getColumnIndex(returncolumn));
 			return returnString;
+		}
+		
+		public void setDBString()
+		{
+			
 		}
 		
 		public ArrayList<UserMaster> customerNameList(String row)
@@ -279,21 +285,23 @@ public class TransactionActivity extends Activity {
 		{
 			AphaseItemTemplate aitl = new AphaseItemTemplate();
 			//	Cursor c = db.query(tablename,new String[](column,column2),"",null,null,null,null);
-			Cursor c = db.query("aphaseitemtemplate", null, "ItemNumber= ?" , new String[]{stateitemid}, null, null, null);
+			Log.e("ysy", "itemmaster" + stateitemid);
+			Cursor c = db.query("itemmaster", null, "ItemNumber=?" , new String[]{stateitemid}, null, null, null);
 		//	Cursor c = db.query(tablename, null, column + " = ?", new String[]{row}, null, null, null);
 
 			if(c.moveToFirst())
 			{
 				aitl.setCustomer(c.getString(c.getColumnIndex("Customer")));
-				aitl.setItemNumber(c.getString(1));
-				aitl.setCustPart(c.getString(2));
-				aitl.setDescription(c.getString(3));
-				aitl.setSrm(c.getString(4));
-				aitl.setPrice(c.getString(5));
-				aitl.setUom(c.getString(6));
-				aitl.setOnOrder(c.getString(7));
-				aitl.setReturnable(c.getString(8));
+				aitl.setItemNumber(c.getString(2));
+				aitl.setCustPart(c.getString(3));
+				aitl.setDescription(c.getString(4));
+				aitl.setSrm(c.getString(5));
+				aitl.setPrice(c.getString(6));
+				aitl.setUom(c.getString(7));
+				aitl.setOnOrder(c.getString(8));
+				aitl.setReturnable(c.getString(9));
 			}
+		//	Log.e("ysy","")
 			return aitl;
 		}
 		
@@ -303,6 +311,7 @@ public class TransactionActivity extends Activity {
 		}
 	}
 
+	//state = 1
 	public void enteruserid()
 	{
 		LayoutInflater li = LayoutInflater.from(this);
@@ -340,8 +349,11 @@ public class TransactionActivity extends Activity {
 
 	}
 	
+	//state 2
 	public void enteruserpin()
 	{
+		Log.e("ysy", "enteruserpin");
+
 		LayoutInflater li = LayoutInflater.from(this);
 		View promptsView = li.inflate(R.layout.simpledialoglayout, null);
   	  	final EditText et   = (EditText)promptsView.findViewById(R.id.editTextDialogUserInput);	
@@ -349,6 +361,7 @@ public class TransactionActivity extends Activity {
 		ad.setPositiveButton("ok", new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
 	               // User clicked OK button
+	        	   dialog.dismiss();
 	        	   tempstring = et.getText().toString();
 	        	   Log.e("ysy", tempstring);
 	        	   if(checkPin(tempstring))
@@ -358,12 +371,14 @@ public class TransactionActivity extends Activity {
 	        		   umdb.openDB();
 	        		ArrayList<UserMaster> aList= umdb.customerNameList(stateuserid);
 	        		   umdb.closeDB();
-	        		   showlistdialog(state,aList);
+	        	//	   showlistdialog(state,aList);
+	        		   choosecustomer(aList);
 	        	   }
 	        	   else
 	        	   {
-	        		   state = ENTERUSERID;	        		   
-	        		   showdialog(ENTERUSERID);
+	        		   enteruserid();
+//	        		   state = ENTERUSERID;	        		   
+//	        		   showdialog(ENTERUSERID);
 	        	   }
 	           }
 	       }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -376,12 +391,13 @@ public class TransactionActivity extends Activity {
 		}).show();
 	}
 	
-	
+	//state 3
 	public void choosecustomer(ArrayList<UserMaster> alist)
 	{
 		final ArrayList<UserMaster> list = alist;
 		final String[] st = new String[list.size()];
-
+		Log.e("ysy", "choosecustomer");
+		Log.e("ysy","list size " + list.size());
 			for(int i = 0 ; i < list.size(); i++)
 			{
 				st[i] = list.get(i).getCustName();
@@ -393,7 +409,7 @@ public class TransactionActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							// TODO Auto-generated method stub
 							Log.e("ysy",st[which]);
-							
+							dialog.dismiss();
 							//find the costomer in the  usermaster to see whether it is returnable customer master 
 							UserMasterDB umdb = new UserMasterDB();
 							umdb.openDB();
@@ -412,6 +428,7 @@ public class TransactionActivity extends Activity {
 //							}
 //							showTwoButtonDialog("Returnable transaction?");
 							umdb.closeDB();
+							Log.e("ysy", "returnable " + statereturnable);
 							chooseReturnable();
 						}
 					}
@@ -420,16 +437,19 @@ public class TransactionActivity extends Activity {
 	
 	public void chooseReturnable()
 	{
-		if(statereturnable == "Y")
+		Log.e("ysy", "choosereturnable");
+		Log.e("ysy", "returnable " + statereturnable);
+		if(statereturnable.equals("Y"))
 		{
 			//whether it can be returned?
-			
+			Log.e("ysy", "returnable " + statereturnable);
 			//showTwoButtonDialog("Returnable transaction?");
 			new AlertDialog.Builder(this).setTitle("Returnable transaction?").setPositiveButton("yes", new DialogInterface.OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
+					dialog.dismiss();
 					statereturnable = "Y";
 //					showdialog(state);
 					entershipto();
@@ -441,6 +461,7 @@ public class TransactionActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							// TODO Auto-generated method stub
 							statereturnable = "N";
+							entershipto();
 						}
 				
 					}).show();		
@@ -448,15 +469,17 @@ public class TransactionActivity extends Activity {
 		}
 		else if (statereturnable == "N") {
 			//
-			
+			Log.e("ysy", "returnable " + statereturnable);
 		}
 	
 	}
-	
+	// state 4
 	public void entershipto()
 	{
 		/*
 		 * AlertDialog*/
+//		AlertDialog.Builder ad;
+//		ad =new AlertDialog.Builder(this);
 		LayoutInflater li = LayoutInflater.from(this);
 		View promptsView = li.inflate(R.layout.simpledialoglayout, null);
   	  	final EditText et   = (EditText)promptsView.findViewById(R.id.editTextDialogUserInput);
@@ -466,20 +489,28 @@ public class TransactionActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				String tempString = et.getText().toString();
+				Log.e("ysy","shiptonum" + tempString);
+     		   dialog.dismiss();
+     		   
 				if(checkShiptoNum(tempString))
 				{
 					//TODO find the autocrib
-					if(autocribflag()=="Y")
+					stateshiptonumer = tempString;
+					if(autocribflag().equals("Y"))
 					{
 						//TODO add a shipdate
 						showTimeDialog();
 					}
-					else {
-						if(workorderflag() == "Y")
+					else if(workorderflag().equals("Y"))
 						{
-							
+							workordernumber();	
 						}
+					else {
+//						  dialog.dismiss();
+//						  dialog.cancel();
+						scanitem();
 					}
+					
 				}
 				else
 				{
@@ -489,6 +520,9 @@ public class TransactionActivity extends Activity {
 			}
 		}).show();
 	}
+	
+
+
 	
 	public String autocribflag()
 	{
@@ -508,8 +542,12 @@ public class TransactionActivity extends Activity {
 		return stateWorkerString;
 	}
 	
+	
+	//state 5
 	public void workordernumber()
 	{
+		Log.e("ysy", "workordernumber");
+
 		LayoutInflater li  = LayoutInflater.from(this);
 		View promptsView = li.inflate(R.layout.simpledialoglayout, null);
 		final EditText et = (EditText)promptsView.findViewById(R.id.editTextDialogUserInput);
@@ -519,18 +557,20 @@ public class TransactionActivity extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO add scanitem function get the string to somewhere
 				Log.e("ysy", "work order" + et.getText().toString());
+				scanitem();
 			}
 		}).show();
 	}
 	
 	
 	//Item scanning process
+	// state 6
 	public void scanitem()
 	{
 		LayoutInflater li = LayoutInflater.from(this);
 		View promptsView = li.inflate(R.layout.simpledialoglayout, null);
 		final EditText et = (EditText)promptsView.findViewById(R.id.editTextDialogUserInput);
-		ad.setTitle("Scan or enter ItemID").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		ad.setTitle("Scan or enter ItemID").setView(promptsView).setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -540,6 +580,7 @@ public class TransactionActivity extends Activity {
 				if(checkItemId(stateitemid))
 				{
 					AphaseItemTemplate newAphaseItemTemplate = getItemFromDB();
+					enterQuantity(newAphaseItemTemplate);
 					//TODO display item information
 				}
 				else {
@@ -558,7 +599,34 @@ public class TransactionActivity extends Activity {
 		return ait;
 	}
 
-	
+	public void enterQuantity(AphaseItemTemplate newAphaseItemTemplate)
+	{
+		LayoutInflater li = LayoutInflater.from(this);
+		View promptsView = li.inflate(R.layout.simpledialoglayout, null);
+	//	(TextView)promptsView.findViewById(R.id.dialogtitle);
+		
+  	  	final EditText et   = (EditText)promptsView.findViewById(R.id.editTextDialogUserInput);
+  	  	et.setKeyListener(new DigitsKeyListener(false,true));
+  	  	String title = newAphaseItemTemplate.getDescription();
+  	  	Log.e("ysy","enterQuantity");
+  	  	Log.e("ysy","title :" + title );
+  	  	ad.setTitle("Quantity:" + title).setView(promptsView).setPositiveButton("OK",new DialogInterface.OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				
+				
+				
+				scanitem();
+			}
+  	  		
+  	  	}
+  	  	)
+  	  	;//.setTitle("quantity");
+  	  	ad.show();
+	}
 	
 	public void showdialog(int astate)
 	{
@@ -677,6 +745,7 @@ public class TransactionActivity extends Activity {
 	
 	public void showTimeDialog()
 	{
+		Log.e("ysy", "showtimedialog");
 		DatePickerDialog dialog = new DatePickerDialog(this,  
                     dateListener,  
                     calendar.get(Calendar.YEAR),  
@@ -687,7 +756,17 @@ public class TransactionActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if(which==DialogInterface.BUTTON_NEGATIVE)
-				Log.e("ysy", "show time");			}
+				Log.e("ysy", "show time");		
+			//	scanitem();
+				}
+		});
+		dialog.setButton(DialogInterface.BUTTON_POSITIVE, "cancel",new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(which == DialogInterface.BUTTON_POSITIVE)
+					scanitem();	
+			}
 		});
 		dialog.show();
 	}
@@ -833,6 +912,7 @@ public class TransactionActivity extends Activity {
 	
 	boolean checkShiptoNum(String shipto)
 	{
+		Log.e("ysy", "chechshiptonum");
 		UserMasterDB umdb = new UserMasterDB();
 		umdb.openDB();
 		boolean tpstate = umdb.checkexit("customermaster", shipto,"ShiptoNumber" );
